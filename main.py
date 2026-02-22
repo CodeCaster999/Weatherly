@@ -21,7 +21,7 @@ class WeatherApp(QWidget):
         # Initialize the base QWidget
         super().__init__()
         # Label prompting the user to enter a city name
-        self.city_name = QLabel("Enter city name:", self)
+        self.city_label = QLabel("Enter city name:", self)
 
         # Text input for the user to enter a city name
         self.city_input = QLineEdit(self)
@@ -29,10 +29,34 @@ class WeatherApp(QWidget):
         # Button to trigger weather data retrieval
         self.display_weather_button = QPushButton("Display Weather", self)
         
-        # Weatehr display elements
+        # Weather display elements
         self.temperature_label = QLabel("70*F", self)
         self.emoji_label = QLabel(": )", self)
         self.description_label = QLabel("Sunny", self)
+        
+        self.initUI()
+    
+    def initUI(self):
+        self.setWindowTitle("Weatherly")
+        
+        vbox = QVBoxLayout()
+        
+        # Orgianizing the GUI components into columns
+        vbox.addWidget(self.city_label)
+        vbox.addWidget(self.city_input)
+        vbox.addWidget(self.display_weather_button)
+        vbox.addWidget(self.temperature_label)
+        vbox.addWidget(self.emoji_label)
+        vbox.addWidget(self.description_label)
+        
+        self.setLayout(vbox)
+        
+        self.city_label.setAlignment(Qt.AlignCenter)
+        self.city_input.setAlignment(Qt.AlignCenter)
+        self.temperature_label.setAlignment(Qt.AlignCenter)
+        self.emoji_label.setAlignment(Qt.AlignCenter)
+        self.description_label.setAlignment(Qt.AlignCenter)
+        
         
         
 if __name__ == "__main__":
