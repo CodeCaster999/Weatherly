@@ -41,7 +41,7 @@ class WeatherApp(QWidget):
         
         vbox = QVBoxLayout()
         
-        # Orgianizing the GUI components into columns
+        # Orgianizing the widgets into columns
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
         vbox.addWidget(self.display_weather_button)
@@ -51,13 +51,49 @@ class WeatherApp(QWidget):
         
         self.setLayout(vbox)
         
+        # Arranging some of the widgets horizontally
         self.city_label.setAlignment(Qt.AlignCenter)
         self.city_input.setAlignment(Qt.AlignCenter)
         self.temperature_label.setAlignment(Qt.AlignCenter)
         self.emoji_label.setAlignment(Qt.AlignCenter)
         self.description_label.setAlignment(Qt.AlignCenter)
         
+        # Object names for widgets
+        self.city_label.setObjectName("city_label")
+        self.city_input.setObjectName("city_input")
+        self.display_weather_button.setObjectName("display_weather_button")
+        self.temperature_label.setObjectName("temperature_label")
+        self.emoji_label.setObjectName("emoji_label")
+        self.description_label.setObjectName("description_label")
         
+        # Applying CSS style sheet
+        self.setStyleSheet("""
+            QLabel, QPushButton {
+                font-family: calibri;
+            }
+            QLabel#city_label{
+                font-size: 40px;
+                font-style: italic;
+            }
+            QLineEdit#city_input {
+                font-size: 40px;
+            }
+            QPushButton#get_weatehr_button {
+                font-size: 30px;
+                font-weight: bold;
+            }
+            QLabel#temperature_label {
+                font-size: 75px;
+            }
+            QLabel#emoji_label {
+                font-size: 100px;
+                font-family: Segoe UI emoji;
+            }
+            QLabel#description_label {
+                font-size: 50px;
+            }
+            
+        """)
         
 if __name__ == "__main__":
     # Create the application (handles GUI events)
