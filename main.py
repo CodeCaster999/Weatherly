@@ -94,7 +94,16 @@ class WeatherApp(QWidget):
             }
             
         """)
-        
+    
+    def get_weather(self):
+        pass
+    
+    def display_error(self, message):
+        pass
+    
+    def display_weather(self, data):
+        pass
+            
 if __name__ == "__main__":
     # Create the application (handles GUI events)
     app = QApplication(sys.argv)
