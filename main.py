@@ -30,9 +30,9 @@ class WeatherApp(QWidget):
         self.display_weather_button = QPushButton("Display Weather", self)
         
         # Weather display elements
-        self.temperature_label = QLabel("70*F", self)
-        self.emoji_label = QLabel(": )", self)
-        self.description_label = QLabel("Sunny", self)
+        self.temperature_label = QLabel(self)
+        self.emoji_label = QLabel(self)
+        self.description_label = QLabel(self)
         
         self.initUI()
     
@@ -78,7 +78,7 @@ class WeatherApp(QWidget):
             QLineEdit#city_input {
                 font-size: 40px;
             }
-            QPushButton#get_weatehr_button {
+            QPushButton#display_weather_button {
                 font-size: 30px;
                 font-weight: bold;
             }
@@ -94,15 +94,29 @@ class WeatherApp(QWidget):
             }
             
         """)
+        
+        # Shows the weather when the "Display Weather" button is clicked
+        self.display_weather_button.clicked.connect(self.get_weather)
     
     def get_weather(self):
-        pass
+        
+        api_key = "e6a0b10d1a364100c0cd0a82da65567c"
+        city = self.city_input.text()
+        url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+        
+        response = requests.get(url)
+        data = response.json()
+        
+        if data["cod"] == 200:
+            self.display_weather(data)
+        else:
+            print(data)
     
     def display_error(self, message):
         pass
     
     def display_weather(self, data):
-        pass
+        print(data)
             
 if __name__ == "__main__":
     # Create the application (handles GUI events)
