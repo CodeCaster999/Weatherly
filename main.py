@@ -104,13 +104,56 @@ class WeatherApp(QWidget):
         city = self.city_input.text()
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
         
-        response = requests.get(url)
-        data = response.json()
+        try:
+            # Send a GET request to the API
+            response = requests.get(url)
+            
+            # Raise an exception for HTTP error responses (4xx, 5xx)
+            response.raise_for_status()
+            
+            # Parse the response JSON into a Python dictionary
+            data = response.json()
+            
+            # Check if API returned a successful status code in the JSON payload
+            if data["cod"] == 200:
+                self.display_weather(data)
+                
+        # Handle HTTP errors triggered by raise_for_status()        
+        except requests.exceptions.HTTPError as http_error:
+            
+            # Match specific HTTP status codes for more user-friendly error messages
+            match response.status_code:
+                case 400:
+                    print("Error Code: 400\nBad request\nPlease check your input")
+                case 401:
+                    print("Error Code: 401\nUnauthorized\nInvalidate API key")
+                case 403:
+                    print("Error Code: 403\nForbidden\nAccess is denied")
+                case 404:
+                    print("Error Code: 404\nNot found\nPlease check your input")
+                case 500:
+                    print("Error Code: 500\nInternal server error\nPlease try again later")
+                case 502:
+                    print("Error Code: 502\nBad Gateway\nInvaid response from the server")
+                case 503:
+                    print("Error Code: 503\nService Unvaliable\nServer is down")
+                case 504:
+                    print("Error Code: 504\nGateway timeout\nNo response from the server")
+                case _:
+                    print(f"An HTTP error occured\n{http_error}")
         
-        if data["cod"] == 200:
-            self.display_weather(data)
-        else:
-            print(data)
+        except requests.exceptions.ConnectionError:
+            print("Connection Error:\nPlease check your internet connection before proceeding")
+        
+        except requests.exceptions.Timeout:
+            print("Timeout Error:\nThe request timed out")
+        
+        except requests.exceptions.ToomanyRedirects:
+            print("Too many Redirects:\nPlease check the URL before proceeding")
+        
+        # Catch any other request-related issues (connection errors, timeouts, etc.)        
+        except requests.exceptions.RequestException as req_error:
+            print(f"Request Error:\n{req_error}")
     
     def display_error(self, message):
         pass
