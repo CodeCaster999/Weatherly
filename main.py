@@ -1,5 +1,5 @@
 import sys, requests
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, 
+from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QWidget, QLabel, 
                              QLineEdit, QPushButton, QVBoxLayout)
 
 """
@@ -20,11 +20,30 @@ class WeatherApp(QWidget):
     def __init__(self):
         # Initialize the base QWidget
         super().__init__()
+        
+        self.back_button = QPushButton("↩️ Go Back", self)
+        
+        self.dark_mode = QPushButton("🌓", self)
+        
+        # Label prompting the user to enter a state name
+        self.country_label = QLabel("Enter country name:", self)
+
+        # Text input for the user to enter a state name
+        self.country_input = QLineEdit(self)         
+        
+        # Label prompting the user to enter a state name
+        self.state_label = QLabel("Enter state name:", self)
+
+        # Text input for the user to enter a state name
+        self.state_input = QLineEdit(self) 
+
         # Label prompting the user to enter a city name
         self.city_label = QLabel("Enter city name:", self)
 
         # Text input for the user to enter a city name
         self.city_input = QLineEdit(self)
+        
+        self.precise_location = QPushButton("📍Use my precise location", self)
 
         # Button to trigger weather data retrieval
         self.display_weather_button = QPushButton("Display Weather", self)
@@ -41,9 +60,21 @@ class WeatherApp(QWidget):
         
         vbox = QVBoxLayout()
         
+        top_bar = QHBoxLayout()
+        top_bar.addWidget(self.back_button)
+        top_bar.addStretch()
+        top_bar.addWidget(self.dark_mode)
+        
+        vbox.addLayout(top_bar)
+        
         # Orgianizing the widgets into columns
+        vbox.addWidget(self.country_label)
+        vbox.addWidget(self.country_input)
+        vbox.addWidget(self.state_label)
+        vbox.addWidget(self.state_input)
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
+        vbox.addWidget(self.precise_location)
         vbox.addWidget(self.display_weather_button)
         vbox.addWidget(self.temperature_label)
         vbox.addWidget(self.emoji_label)
@@ -52,15 +83,26 @@ class WeatherApp(QWidget):
         self.setLayout(vbox)
         
         # Arranging some of the widgets horizontally
-        self.city_label.setAlignment(Qt.AlignCenter)
-        self.city_input.setAlignment(Qt.AlignCenter)
+        self.country_label.setAlignment(Qt.AlignLeft)
+        self.country_input.setAlignment(Qt.AlignLeft)  
+        self.state_label.setAlignment(Qt.AlignLeft)
+        self.state_input.setAlignment(Qt.AlignLeft)  
+        self.city_label.setAlignment(Qt.AlignLeft)
+        self.city_input.setAlignment(Qt.AlignLeft)
         self.temperature_label.setAlignment(Qt.AlignCenter)
         self.emoji_label.setAlignment(Qt.AlignCenter)
         self.description_label.setAlignment(Qt.AlignCenter)
         
         # Object names for widgets
+        self.back_button.setObjectName("back_button")
+        self.dark_mode.setObjectName("dark_mode")
+        self.country_label.setObjectName("country_label")
+        self.country_input.setObjectName("country_input")        
+        self.state_label.setObjectName("state_label")
+        self.state_input.setObjectName("state_input")
         self.city_label.setObjectName("city_label")
         self.city_input.setObjectName("city_input")
+        self.precise_location.setObjectName("precise_loc")
         self.display_weather_button.setObjectName("display_weather_button")
         self.temperature_label.setObjectName("temperature_label")
         self.emoji_label.setObjectName("emoji_label")
@@ -71,12 +113,32 @@ class WeatherApp(QWidget):
             QLabel, QPushButton {
                 font-family: calibri;
             }
+            QPushButton#back_button {
+                font-size: 20px
+            }
+            QPushButton#dark_mode {
+                font-size: 20px
+            }
+            QLabel#country_label{
+                font-size: 20px;
+            }
+            QLineEdit#country_input {
+                font-size: 20px;
+            }
+            QLabel#state_label{
+                font-size: 20px;
+            }
+            QLineEdit#state_input {
+                font-size: 20px;
+            }
             QLabel#city_label{
-                font-size: 40px;
-                font-style: italic;
+                font-size: 20px;
             }
             QLineEdit#city_input {
-                font-size: 40px;
+                font-size: 20px;
+            }
+            QPushButton#precise_loc {
+                font-size: 30px;
             }
             QPushButton#display_weather_button {
                 font-size: 30px;
@@ -113,6 +175,9 @@ class WeatherApp(QWidget):
             
             # Parse the response JSON into a Python dictionary
             data = response.json()
+            
+            # For dev purposes
+            print(data)
             
             # Check if API returned a successful status code in the JSON payload
             if data["cod"] == 200:
