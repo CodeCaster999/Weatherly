@@ -25,21 +25,13 @@ class WeatherApp(QWidget):
         self.back_button = QPushButton("↩️ Go Back", self)
         
         # A button that turns on darkmode
-        self.dark_mode = QPushButton("🌓", self)
-        
-        # Label prompting the user to enter a state name
-        self.country_label = QLabel("Enter country name:", self)
-
-        # Text input for the user to enter a state name
-        self.country_input = QLineEdit(self)         
+        self.dark_mode = QPushButton("🌓", self)      
 
         # Label prompting the user to enter a city name
         self.city_label = QLabel("Enter city name:", self)
 
         # Text input for the user to enter a city name
         self.city_input = QLineEdit(self)
-        
-        self.precise_location = QPushButton("📍Use my precise location", self)
 
         # Button to trigger weather data retrieval
         self.display_weather_button = QPushButton("Display Weather", self)
@@ -64,11 +56,8 @@ class WeatherApp(QWidget):
         vbox.addLayout(top_bar)
         
         # Orgianizing the widgets into columns
-        vbox.addWidget(self.country_label)
-        vbox.addWidget(self.country_input)
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
-        vbox.addWidget(self.precise_location)
         vbox.addWidget(self.display_weather_button)
         vbox.addWidget(self.temperature_label)
         vbox.addWidget(self.emoji_label)
@@ -77,8 +66,6 @@ class WeatherApp(QWidget):
         self.setLayout(vbox)
         
         # Arranging some of the widgets horizontally
-        self.country_label.setAlignment(Qt.AlignLeft)
-        self.country_input.setAlignment(Qt.AlignLeft)  
         self.city_label.setAlignment(Qt.AlignLeft)
         self.city_input.setAlignment(Qt.AlignLeft)
         self.temperature_label.setAlignment(Qt.AlignCenter)
@@ -87,12 +74,9 @@ class WeatherApp(QWidget):
         
         # Object names for widgets
         self.back_button.setObjectName("back_button")
-        self.dark_mode.setObjectName("dark_mode")
-        self.country_label.setObjectName("country_label")
-        self.country_input.setObjectName("country_input")        
+        self.dark_mode.setObjectName("dark_mode")    
         self.city_label.setObjectName("city_label")
         self.city_input.setObjectName("city_input")
-        self.precise_location.setObjectName("precise_loc")
         self.display_weather_button.setObjectName("display_weather_button")
         self.temperature_label.setObjectName("temperature_label")
         self.emoji_label.setObjectName("emoji_label")
@@ -109,20 +93,13 @@ class WeatherApp(QWidget):
             QPushButton#dark_mode {
                 font-size: 20px
             }
-            QLabel#country_label{
-                font-size: 20px;
-            }
-            QLineEdit#country_input {
-                font-size: 20px;
-            }
-            QLabel#city_label{
-                font-size: 20px;
+            QLabel#city_label {
+                font-size: 40px;
+                margin-top: 40px;
             }
             QLineEdit#city_input {
-                font-size: 20px;
-            }
-            QPushButton#precise_loc {
-                font-size: 30px;
+                font-size: 40px;
+                margin-bottom: 40px;
             }
             QPushButton#display_weather_button {
                 font-size: 30px;
@@ -147,7 +124,6 @@ class WeatherApp(QWidget):
     def get_weather(self):
         
         api_key = "e6a0b10d1a364100c0cd0a82da65567c"
-        country = self.country_input.text()
         city = self.city_input.text()
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
         
