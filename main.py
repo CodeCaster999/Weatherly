@@ -1,6 +1,7 @@
 import sys, requests
 from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QWidget, QLabel, 
                              QLineEdit, QPushButton, QVBoxLayout)
+import qdarktheme
 
 """
 Widget	        Purpose
