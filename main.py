@@ -22,11 +22,14 @@ class WeatherApp(QWidget):
         # Initialize the base QWidget
         super().__init__()
         
-
+        # A button that returns the user back to the main menu
         self.back_button = QPushButton("↩️ Go Back", self)
-        
+
         # A button that turns on darkmode
-        self.dark_mode = QPushButton("🌓", self)      
+        self.dark_mode = QPushButton("🌓", self)    
+
+        # Makes the button checkable so the feature can turn on
+        self.dark_mode.setCheckable(True)  
 
         # Label prompting the user to enter a city name
         self.city_label = QLabel("Enter city name:", self)
@@ -82,6 +85,9 @@ class WeatherApp(QWidget):
         self.temperature_label.setObjectName("temperature_label")
         self.emoji_label.setObjectName("emoji_label")
         self.description_label.setObjectName("description_label")
+
+        # Toggles between the dark and light themes
+        self.dark_mode.toggled.connect(self.toggle_theme)
         
         # Applying CSS style sheet
         self.setStyleSheet("""
@@ -209,6 +215,12 @@ class WeatherApp(QWidget):
         weather_desc = data["weather"][0]["description"]
         self.description_label.setText(weather_desc)
         
+    def toggle_theme(self, checked):
+        if checked:
+            qdarktheme.setup_theme("dark")
+        else:
+            qdarktheme.setup_theme("light")
+    
     # Displays weather emojis on the interface using the weather the emoji_label widget
     @staticmethod
     def display_weather_emoji(weather_id):
@@ -251,10 +263,16 @@ class WeatherApp(QWidget):
         # Fallback
         else:    
             return "❓"
+
+    
             
 if __name__ == "__main__":
+
     # Create the application (handles GUI events)
     app = QApplication(sys.argv)
+
+    # Apply dark theme.
+    qdarktheme.setup_theme('light')
     
     # Create and display the main window
     weather_app = WeatherApp()
